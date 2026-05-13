@@ -3,7 +3,7 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import bcrypt from "bcryptjs";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
@@ -64,7 +64,7 @@ export async function createProgram(fd: FormData) {
   const data = extractProgram(fd);
   const p = await prisma.program.create({ data });
   revalidatePath("/admin/programs");
-  revalidatePath("/dashboard");
+  updateTag("programs");
   redirect(`/admin/programs/${p.id}`);
 }
 
@@ -74,14 +74,14 @@ export async function updateProgram(id: string, fd: FormData) {
   await prisma.program.update({ where: { id }, data });
   revalidatePath("/admin/programs");
   revalidatePath(`/admin/programs/${id}`);
-  revalidatePath("/dashboard");
+  updateTag("programs");
 }
 
 export async function deleteProgram(id: string) {
   await requireEditor();
   await prisma.program.delete({ where: { id } });
   revalidatePath("/admin/programs");
-  revalidatePath("/dashboard");
+  updateTag("programs");
 }
 
 const schoolSchema = z.object({
@@ -95,7 +95,7 @@ export async function createSchool(fd: FormData) {
   const data = schoolSchema.parse({ name, active: true });
   await prisma.school.create({ data });
   revalidatePath("/admin/schools");
-  revalidatePath("/dashboard");
+  updateTag("programs");
 }
 
 export async function updateSchool(id: string, fd: FormData) {
@@ -107,14 +107,14 @@ export async function updateSchool(id: string, fd: FormData) {
     data: schoolSchema.parse({ name, active }),
   });
   revalidatePath("/admin/schools");
-  revalidatePath("/dashboard");
+  updateTag("programs");
 }
 
 export async function deleteSchool(id: string) {
   await requireEditor();
   await prisma.school.delete({ where: { id } });
   revalidatePath("/admin/schools");
-  revalidatePath("/dashboard");
+  updateTag("programs");
 }
 
 const userCreateSchema = z.object({
