@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  EDITOR
+  VIEWER
+}
+
+model User {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  passwordHash String
+  displayName  String?
+  role         Role     @default(VIEWER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model School {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  active    Boolean   @default(true)
+  programs  Program[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+// 一行 = 主表中的一个「学校 × 选拔方式」组合
+model Program {
+  id                      String   @id @default(cuid())
+  school                  School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  schoolId                String
+  admissionMethod         String
+  scheduleType            String
+  acceptsJpHs             String
+  acceptsOverseasNonStudy String
+  acceptsStudyVisa        String
+  acceptsNonStudyVisa     String
+  requiresJp              String
+  jpRequirement           String?
+  jpExemption             String?
+  attendanceMin           Int      @default(0)
+  remarks                 String?
+  yearTag                 String?
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  @@index([schoolId])
+}
