@@ -31,8 +31,14 @@ export type EligibilityResult = {
   overall: "可报考" | "不可报考" | "需人工确认";
 };
 
-const OK_VALUES = new Set(["可", "两者可", "両者可", "可以", "yes", "true"]);
-const NO_VALUES = new Set(["不可", "否", "no", "false"]);
+const OK_VALUES = new Set([
+  "可", "○", "両者可", "两者可", "可以",
+  "○可", "需要", "yes", "true",
+]);
+const NO_VALUES = new Set([
+  "不可", "×", "否", "no", "false",
+]);
+// △ / 视情况 / 個別判斷 等都视为「未知」, 走人工确认
 
 const isOk = (s: string | null | undefined) =>
   s ? OK_VALUES.has(s.trim()) : false;
@@ -100,10 +106,13 @@ function judgeVisa(s: StudentCriteria, p: ProgramRow): Judgement {
 
 function judgeJp(s: StudentCriteria, p: ProgramRow): Judgement {
   const req = (p.requiresJp ?? "").trim();
-  if (req === "不需要" || req === "" || req === "无") return "通过";
+  if (req === "不需要" || req === "" || req === "无" || req === "免除") return "通过";
+
+  // 个别判断 / 视情况 → 让人工确认
+  if (/個別判[断斷]|个别判断|视情况|视情況|個別判斷|case|按学|学校长|出身校/.test(req)) return "未知";
 
   // 条件免除: 满足免除条件即通过 (常见为「日本高中」)
-  if (req === "条件免除") {
+  if (req === "条件免除" || req.includes("免除")) {
     const exempt = (p.jpExemption ?? "").trim();
     if (exempt) {
       if (exempt.includes("日本高中") && s.isJpHs) return "通过";

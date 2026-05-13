@@ -50,7 +50,17 @@ async function main() {
   const schoolCache = new Map<string, string>();
   let programCount = 0;
 
-  for (const row of rows) {
+  // 把 key 里的 \r\n 全部归一为 \n,避免 Excel 行末用 CRLF 时匹配不上
+  const normalize = (r: Row): Row => {
+    const out: Row = {};
+    for (const [k, v] of Object.entries(r)) {
+      out[k.replace(/\r\n/g, "\n")] = v;
+    }
+    return out;
+  };
+
+  for (const raw of rows) {
+    const row = normalize(raw);
     const schoolName = s(row["学校名称"]);
     if (!schoolName) continue;
     const admissionMethod = s(row["选拔方式"]);
