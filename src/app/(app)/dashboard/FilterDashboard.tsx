@@ -50,16 +50,20 @@ const FILTER_OPTIONS = [
   { v: "fail", label: "仅不可报考" },
 ] as const;
 
+const DEFAULT_STUDENT: StudentCriteria = {
+  background: "日本高中",
+  isJpHs: true,
+  jpHsYears: 3,
+  nationality: "外国籍",
+  visaStatus: "家族滞在",
+  jpLevel: "无",
+  attendance: 90,
+};
+
 export default function FilterDashboard({ rows }: { rows: Row[] }) {
-  const [student, setStudent] = useState<StudentCriteria>({
-    background: "日本高中",
-    isJpHs: true,
-    jpHsYears: 3,
-    nationality: "外国籍",
-    visaStatus: "家族滞在",
-    jpLevel: "无",
-    attendance: 90,
-  });
+  const [draftStudent, setDraftStudent] = useState<StudentCriteria>(DEFAULT_STUDENT);
+  const [appliedStudent, setAppliedStudent] = useState<StudentCriteria>(DEFAULT_STUDENT);
+  const isDirty = JSON.stringify(draftStudent) !== JSON.stringify(appliedStudent);
   const [filter, setFilter] = useState<(typeof FILTER_OPTIONS)[number]["v"]>("pass");
   const [schoolQuery, setSchoolQuery] = useState("");
   const [scheduleType, setScheduleType] = useState<string>("all");
@@ -72,8 +76,8 @@ export default function FilterDashboard({ rows }: { rows: Row[] }) {
   }, [rows]);
 
   const evaluated = useMemo(() => {
-    return rows.map((r) => ({ row: r, result: evaluate(student, r) }));
-  }, [rows, student]);
+    return rows.map((r) => ({ row: r, result: evaluate(appliedStudent, r) }));
+  }, [rows, appliedStudent]);
 
   const filtered = useMemo(() => {
     return evaluated.filter(({ row, result }) => {
@@ -105,10 +109,10 @@ export default function FilterDashboard({ rows }: { rows: Row[] }) {
           <Field label="出身">
             <select
               className="select"
-              value={student.background}
+              value={draftStudent.background}
               onChange={(e) =>
-                setStudent({
-                  ...student,
+                setDraftStudent({
+                  ...draftStudent,
                   background: e.target.value as StudentCriteria["background"],
                   isJpHs: e.target.value === "日本高中",
                 })
@@ -121,9 +125,9 @@ export default function FilterDashboard({ rows }: { rows: Row[] }) {
           <Field label="是否日高生">
             <select
               className="select"
-              value={student.isJpHs ? "是" : "否"}
+              value={draftStudent.isJpHs ? "是" : "否"}
               onChange={(e) =>
-                setStudent({ ...student, isJpHs: e.target.value === "是" })
+                setDraftStudent({ ...draftStudent, isJpHs: e.target.value === "是" })
               }
             >
               <option value="是">是</option>
@@ -136,19 +140,19 @@ export default function FilterDashboard({ rows }: { rows: Row[] }) {
               min={0}
               max={6}
               className="select"
-              value={student.jpHsYears}
+              value={draftStudent.jpHsYears}
               onChange={(e) =>
-                setStudent({ ...student, jpHsYears: Number(e.target.value) })
+                setDraftStudent({ ...draftStudent, jpHsYears: Number(e.target.value) })
               }
             />
           </Field>
           <Field label="国籍身份">
             <select
               className="select"
-              value={student.nationality}
+              value={draftStudent.nationality}
               onChange={(e) =>
-                setStudent({
-                  ...student,
+                setDraftStudent({
+                  ...draftStudent,
                   nationality: e.target.value as StudentCriteria["nationality"],
                 })
               }
@@ -160,9 +164,9 @@ export default function FilterDashboard({ rows }: { rows: Row[] }) {
           <Field label="签证 / 在留资格">
             <select
               className="select"
-              value={student.visaStatus}
+              value={draftStudent.visaStatus}
               onChange={(e) =>
-                setStudent({ ...student, visaStatus: e.target.value })
+                setDraftStudent({ ...draftStudent, visaStatus: e.target.value })
               }
             >
               {VISA_OPTIONS.map((v) => (
@@ -173,9 +177,9 @@ export default function FilterDashboard({ rows }: { rows: Row[] }) {
           <Field label="日语程度">
             <select
               className="select"
-              value={student.jpLevel}
+              value={draftStudent.jpLevel}
               onChange={(e) =>
-                setStudent({ ...student, jpLevel: e.target.value })
+                setDraftStudent({ ...draftStudent, jpLevel: e.target.value })
               }
             >
               {JP_LEVELS.map((v) => (
@@ -189,16 +193,42 @@ export default function FilterDashboard({ rows }: { rows: Row[] }) {
               min={0}
               max={100}
               className="select"
-              value={student.attendance}
+              value={draftStudent.attendance}
               onChange={(e) =>
-                setStudent({
-                  ...student,
+                setDraftStudent({
+                  ...draftStudent,
                   attendance: Number(e.target.value || 0),
                 })
               }
             />
           </Field>
         </div>
+
+        <div className="mt-4 flex gap-2">
+          <button
+            type="button"
+            onClick={() => setAppliedStudent(draftStudent)}
+            disabled={!isDirty}
+            className="btn-primary flex-1"
+          >
+            {isDirty ? "确认筛选" : "已应用"}
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setDraftStudent(DEFAULT_STUDENT);
+              setAppliedStudent(DEFAULT_STUDENT);
+            }}
+            className="btn-secondary"
+          >
+            重置
+          </button>
+        </div>
+        {isDirty ? (
+          <p className="mt-2 text-xs text-amber-700">
+            条件已修改,点「确认筛选」后右侧才会更新
+          </p>
+        ) : null}
 
         <div className="mt-6 border-t border-zinc-100 pt-4">
           <div className="flex justify-between text-xs text-zinc-600">
