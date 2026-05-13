@@ -1,20 +1,8 @@
-import { prisma } from "@/lib/db";
-import { unstable_cache } from "next/cache";
+import { getAllPrograms } from "@/lib/data";
 import FilterDashboard from "./FilterDashboard";
 
-// 缓存 60 秒,并打 tag。编辑/新建/删除时 server-actions 调 revalidateTag("programs") 立即失效。
-const getPrograms = unstable_cache(
-  async () =>
-    prisma.program.findMany({
-      include: { school: { select: { name: true, active: true } } },
-      orderBy: [{ school: { name: "asc" } }, { admissionMethod: "asc" }],
-    }),
-  ["all-programs"],
-  { revalidate: 60, tags: ["programs"] },
-);
-
 export default async function DashboardPage() {
-  const programs = await getPrograms();
+  const programs = await getAllPrograms();
   const rows = programs.map((p) => ({
     id: p.id,
     schoolName: p.school.name,

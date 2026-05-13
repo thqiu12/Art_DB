@@ -1,13 +1,8 @@
-import { prisma } from "@/lib/db";
 import { createSchool, deleteSchool, updateSchool } from "@/lib/server-actions";
-
-export const dynamic = "force-dynamic";
+import { getAllSchools } from "@/lib/data";
 
 export default async function SchoolsPage() {
-  const schools = await prisma.school.findMany({
-    orderBy: { name: "asc" },
-    include: { _count: { select: { programs: true } } },
-  });
+  const schools = await getAllSchools();
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-6 space-y-4">

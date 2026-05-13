@@ -1,8 +1,6 @@
-import { prisma } from "@/lib/db";
 import { deleteProgram } from "@/lib/server-actions";
+import { getAllPrograms, getAllSchools } from "@/lib/data";
 import Link from "next/link";
-
-export const dynamic = "force-dynamic";
 
 export default async function ProgramsPage(props: {
   searchParams: Promise<{ q?: string; school?: string }>;
@@ -11,26 +9,21 @@ export default async function ProgramsPage(props: {
   const q = sp.q?.trim() ?? "";
   const schoolId = sp.school?.trim() ?? "";
 
-  const [programs, schools] = await Promise.all([
-    prisma.program.findMany({
-      where: {
-        AND: [
-          schoolId ? { schoolId } : {},
-          q
-            ? {
-                OR: [
-                  { admissionMethod: { contains: q } },
-                  { school: { name: { contains: q } } },
-                ],
-              }
-            : {},
-        ],
-      },
-      include: { school: { select: { name: true } } },
-      orderBy: [{ school: { name: "asc" } }, { admissionMethod: "asc" }],
-    }),
-    prisma.school.findMany({ orderBy: { name: "asc" } }),
+  const [allPrograms, schools] = await Promise.all([
+    getAllPrograms(),
+    getAllSchools(),
   ]);
+
+  const programs = allPrograms.filter((p) => {
+    if (schoolId && p.schoolId !== schoolId) return false;
+    if (
+      q &&
+      !p.admissionMethod.includes(q) &&
+      !p.school.name.includes(q)
+    )
+      return false;
+    return true;
+  });
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6">
