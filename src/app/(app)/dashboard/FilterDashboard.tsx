@@ -311,14 +311,7 @@ export default function FilterDashboard({ rows }: { rows: Row[] }) {
             <tbody>
               {filtered.map(({ row, result }) => (
                 <tr key={row.id} className="border-b border-zinc-100 align-top">
-                  <Td>
-                    {row.schoolName}
-                    {row.yearTag ? (
-                      <span className="ml-2 text-[10px] text-zinc-400">
-                        {row.yearTag}
-                      </span>
-                    ) : null}
-                  </Td>
+                  <Td>{row.schoolName}</Td>
                   <Td className="whitespace-pre-line">{row.admissionMethod}</Td>
                   <Td>{row.scheduleType}</Td>
                   <Td className="max-w-[220px]">
