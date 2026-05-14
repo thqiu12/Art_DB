@@ -67,7 +67,7 @@ export default function FilterDashboard({ rows }: { rows: Row[] }) {
   const [filter, setFilter] = useState<(typeof FILTER_OPTIONS)[number]["v"]>("pass");
   const [schoolQuery, setSchoolQuery] = useState("");
   const [scheduleType, setScheduleType] = useState<string>("all");
-  const [showInactive, setShowInactive] = useState(false);
+  const [showInactive, setShowInactive] = useState(true);
 
   const scheduleTypes = useMemo(() => {
     const s = new Set<string>();
@@ -288,7 +288,7 @@ export default function FilterDashboard({ rows }: { rows: Row[] }) {
               checked={showInactive}
               onChange={(e) => setShowInactive(e.target.checked)}
             />
-            含已停用学校
+            含待统计学校
           </label>
         </div>
 
@@ -311,7 +311,17 @@ export default function FilterDashboard({ rows }: { rows: Row[] }) {
             <tbody>
               {filtered.map(({ row, result }) => (
                 <tr key={row.id} className="border-b border-zinc-100 align-top">
-                  <Td>{row.schoolName}</Td>
+                  <Td>
+                    {row.schoolName}
+                    {!row.schoolActive ? (
+                      <span
+                        className="ml-2 inline-flex items-center rounded-md bg-zinc-100 px-1.5 py-0.5 text-[10px] text-zinc-500"
+                        title="未在「學校list」打勾,数据可能还未确认完毕"
+                      >
+                        待统计
+                      </span>
+                    ) : null}
+                  </Td>
                   <Td className="whitespace-pre-line">{row.admissionMethod}</Td>
                   <Td>{row.scheduleType}</Td>
                   <Td className="max-w-[220px]">

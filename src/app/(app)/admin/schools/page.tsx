@@ -27,7 +27,7 @@ export default async function SchoolsPage() {
             <tr>
               <th className="text-left p-3">学校名</th>
               <th className="text-left p-3">项目数</th>
-              <th className="text-left p-3">启用</th>
+              <th className="text-left p-3">统计状态</th>
               <th className="text-left p-3">操作</th>
             </tr>
           </thead>
@@ -75,7 +75,7 @@ export default async function SchoolsPage() {
                           : "bg-zinc-100 text-zinc-600")
                       }
                     >
-                      {s.active ? "启用中" : "已停用"}
+                      {s.active ? "✅ 已统计" : "⏳ 待统计"}
                     </button>
                   </form>
                 </td>
