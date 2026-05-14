@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "升学条件筛选数据库",
-  description: "日高生＋海外高中非留学签证报考条件筛选 (社内工具)",
+  title: "知日美术 | 日高生专用升学规划数据库",
+  description: "日高生＋海外高中非留学签证 报考条件筛选 (社内工具)",
 };
 
 export default function RootLayout({
@@ -27,7 +27,7 @@ export default function RootLayout({
       lang="zh-CN"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-zinc-50 text-zinc-900">
+      <body className="min-h-full flex flex-col text-[#1C1C1C]">
         {children}
       </body>
     </html>

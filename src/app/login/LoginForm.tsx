@@ -40,9 +40,11 @@ export default function LoginForm({
   return (
     <form onSubmit={submit} className="flex flex-col gap-3">
       <label className="flex flex-col gap-1">
-        <span className="text-xs text-zinc-600">账号</span>
+        <span className="text-xs font-bold tracking-widest text-[#BDBDBD] uppercase">
+          账号
+        </span>
         <input
-          className="border border-zinc-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-400"
+          className="select"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           autoFocus
@@ -50,20 +52,22 @@ export default function LoginForm({
         />
       </label>
       <label className="flex flex-col gap-1">
-        <span className="text-xs text-zinc-600">密码</span>
+        <span className="text-xs font-bold tracking-widest text-[#BDBDBD] uppercase">
+          密码
+        </span>
         <input
           type="password"
-          className="border border-zinc-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-400"
+          className="select"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
       </label>
-      {msg && <p className="text-sm text-red-600">{msg}</p>}
+      {msg && <p className="text-sm text-rose-600">{msg}</p>}
       <button
         type="submit"
         disabled={pending}
-        className="mt-2 rounded-lg bg-zinc-900 text-white py-2 text-sm font-medium hover:bg-zinc-800 disabled:opacity-50"
+        className="btn-primary mt-2 w-full py-2.5"
       >
         {pending ? "登录中…" : "登录"}
       </button>

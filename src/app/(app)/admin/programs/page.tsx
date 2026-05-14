@@ -32,7 +32,7 @@ export default async function ProgramsPage(props: {
         <Link href="/admin/programs/new" className="btn-primary">+ 新建项目</Link>
       </div>
 
-      <form className="mb-4 flex flex-wrap gap-3 items-center bg-white rounded-2xl border border-zinc-200 p-3">
+      <form className="mb-4 flex flex-wrap gap-3 items-center bg-white rounded-2xl border border-[#E2E0DA] p-3">
         <input
           name="q"
           defaultValue={q}
@@ -46,12 +46,12 @@ export default async function ProgramsPage(props: {
           ))}
         </select>
         <button type="submit" className="btn-secondary">筛选</button>
-        <span className="text-xs text-zinc-500 ml-auto">共 {programs.length} 条</span>
+        <span className="text-xs text-[#BDBDBD] ml-auto">共 {programs.length} 条</span>
       </form>
 
-      <div className="bg-white rounded-2xl border border-zinc-200 overflow-x-auto">
+      <div className="bg-white rounded-2xl border border-[#E2E0DA] overflow-x-auto">
         <table className="w-full text-sm">
-          <thead className="text-xs text-zinc-500 border-b border-zinc-200">
+          <thead className="text-xs text-[#BDBDBD] border-b border-[#E2E0DA]">
             <tr>
               <th className="text-left p-3">学校</th>
               <th className="text-left p-3">选拔方式</th>
@@ -64,20 +64,20 @@ export default async function ProgramsPage(props: {
           </thead>
           <tbody>
             {programs.map((p) => (
-              <tr key={p.id} className="border-b border-zinc-100">
+              <tr key={p.id} className="border-b border-[#F0EFE9]">
                 <td className="p-3">{p.school.name}</td>
                 <td className="p-3 whitespace-pre-line">{p.admissionMethod}</td>
-                <td className="p-3 text-xs text-zinc-600">{p.scheduleType}</td>
-                <td className="p-3 text-xs text-zinc-600">
+                <td className="p-3 text-xs text-[#7A7A7A]">{p.scheduleType}</td>
+                <td className="p-3 text-xs text-[#7A7A7A]">
                   {p.acceptsJpHs}/{p.acceptsOverseasNonStudy}
                 </td>
-                <td className="p-3 text-xs text-zinc-600 max-w-[240px]">
+                <td className="p-3 text-xs text-[#7A7A7A] max-w-[240px]">
                   {p.requiresJp}
                   {p.jpRequirement ? `: ${p.jpRequirement}` : ""}
                 </td>
                 <td className="p-3 text-xs">{p.attendanceMin || "—"}</td>
                 <td className="p-3 flex gap-2">
-                  <Link href={`/admin/programs/${p.id}`} className="text-zinc-700 hover:text-black text-xs">编辑</Link>
+                  <Link href={`/admin/programs/${p.id}`} className="text-[#1C1C1C] hover:text-black text-xs">编辑</Link>
                   <form
                     action={async () => {
                       "use server";
@@ -96,7 +96,7 @@ export default async function ProgramsPage(props: {
             ))}
             {programs.length === 0 && (
               <tr>
-                <td colSpan={7} className="p-8 text-center text-zinc-400 text-sm">
+                <td colSpan={7} className="p-8 text-center text-[#BDBDBD] text-sm">
                   无记录
                 </td>
               </tr>

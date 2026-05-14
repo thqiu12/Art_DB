@@ -103,8 +103,10 @@ export default function FilterDashboard({ rows }: { rows: Row[] }) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-6">
-      <aside className="bg-white rounded-2xl border border-zinc-200 p-5 self-start lg:sticky lg:top-4">
-        <h2 className="text-sm font-semibold mb-4">学生条件</h2>
+      <aside className="bg-white rounded-2xl border border-[#E2E0DA] p-5 self-start lg:sticky lg:top-4">
+        <p className="text-xs font-black tracking-widest text-[#BDBDBD] uppercase mb-4">
+          学生条件
+        </p>
         <div className="flex flex-col gap-3">
           <Field label="出身">
             <select
@@ -230,23 +232,23 @@ export default function FilterDashboard({ rows }: { rows: Row[] }) {
           </p>
         ) : null}
 
-        <div className="mt-6 border-t border-zinc-100 pt-4">
-          <div className="flex justify-between text-xs text-zinc-600">
+        <div className="mt-6 border-t border-[#F0EFE9] pt-4">
+          <div className="flex justify-between text-xs text-[#7A7A7A]">
             <span>⭕ 可报考</span>
             <span className="font-medium text-emerald-700">{counts.pass}</span>
           </div>
-          <div className="flex justify-between text-xs text-zinc-600 mt-1">
+          <div className="flex justify-between text-xs text-[#7A7A7A] mt-1">
             <span>🟡 需人工确认</span>
             <span className="font-medium text-amber-700">{counts.review}</span>
           </div>
-          <div className="flex justify-between text-xs text-zinc-600 mt-1">
+          <div className="flex justify-between text-xs text-[#7A7A7A] mt-1">
             <span>🔴 不可报考</span>
             <span className="font-medium text-rose-700">{counts.fail}</span>
           </div>
         </div>
       </aside>
 
-      <section className="bg-white rounded-2xl border border-zinc-200 p-5">
+      <section className="bg-white rounded-2xl border border-[#E2E0DA] p-5">
         <div className="flex flex-wrap gap-3 items-center mb-4">
           <input
             type="text"
@@ -274,15 +276,15 @@ export default function FilterDashboard({ rows }: { rows: Row[] }) {
                 className={
                   "px-3 py-1.5 rounded-lg text-xs " +
                   (filter === o.v
-                    ? "bg-zinc-900 text-white"
-                    : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200")
+                    ? "bg-[#F09517] text-white font-bold"
+                    : "bg-[#FAFAF8] text-[#7A7A7A] border border-[#E2E0DA] hover:border-[#F09517] hover:text-[#F09517]")
                 }
               >
                 {o.label}
               </button>
             ))}
           </div>
-          <label className="flex items-center gap-1 text-xs text-zinc-600">
+          <label className="flex items-center gap-1 text-xs text-[#7A7A7A]">
             <input
               type="checkbox"
               checked={showInactive}
@@ -294,7 +296,7 @@ export default function FilterDashboard({ rows }: { rows: Row[] }) {
 
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="text-xs text-zinc-500 border-b border-zinc-200">
+            <thead className="text-xs text-[#BDBDBD] border-b border-[#E2E0DA]">
               <tr>
                 <Th>学校</Th>
                 <Th>选拔方式</Th>
@@ -310,12 +312,12 @@ export default function FilterDashboard({ rows }: { rows: Row[] }) {
             </thead>
             <tbody>
               {filtered.map(({ row, result }) => (
-                <tr key={row.id} className="border-b border-zinc-100 align-top">
+                <tr key={row.id} className="border-b border-[#F0EFE9] align-top">
                   <Td>
                     {row.schoolName}
                     {!row.schoolActive ? (
                       <span
-                        className="ml-2 inline-flex items-center rounded-md bg-zinc-100 px-1.5 py-0.5 text-[10px] text-zinc-500"
+                        className="ml-2 inline-flex items-center rounded-md bg-[#F5F4F0] px-1.5 py-0.5 text-[10px] text-[#BDBDBD]"
                         title="未在「學校list」打勾,数据可能还未确认完毕"
                       >
                         待统计
@@ -329,7 +331,7 @@ export default function FilterDashboard({ rows }: { rows: Row[] }) {
                       {row.requiresJp}
                       {row.jpRequirement ? `: ${row.jpRequirement}` : ""}
                       {row.jpExemption ? (
-                        <span className="block text-zinc-400 mt-0.5">
+                        <span className="block text-[#BDBDBD] mt-0.5">
                           免除: {row.jpExemption}
                         </span>
                       ) : null}
@@ -349,7 +351,7 @@ export default function FilterDashboard({ rows }: { rows: Row[] }) {
                 <tr>
                   <td
                     colSpan={10}
-                    className="py-10 text-center text-zinc-400 text-sm"
+                    className="py-10 text-center text-[#BDBDBD] text-sm"
                   >
                     没有符合条件的记录
                   </td>
@@ -372,7 +374,7 @@ function Field({
 }) {
   return (
     <label className="flex flex-col gap-1">
-      <span className="text-xs text-zinc-600">{label}</span>
+      <span className="text-xs text-[#7A7A7A]">{label}</span>
       {children}
     </label>
   );

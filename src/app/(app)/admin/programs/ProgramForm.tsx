@@ -35,7 +35,7 @@ export default function ProgramForm({
   return (
     <form
       action={action}
-      className="bg-white rounded-2xl border border-zinc-200 p-6 grid grid-cols-1 md:grid-cols-2 gap-4"
+      className="bg-white rounded-2xl border border-[#E2E0DA] p-6 grid grid-cols-1 md:grid-cols-2 gap-4"
     >
       <Field label="学校" required>
         <select
@@ -152,7 +152,7 @@ export default function ProgramForm({
         />
       </Field>
 
-      <div className="md:col-span-2 flex justify-end gap-2 pt-2 border-t border-zinc-100">
+      <div className="md:col-span-2 flex justify-end gap-2 pt-2 border-t border-[#F0EFE9]">
         <Link href="/admin/programs" className="btn-secondary">取消</Link>
         <button type="submit" className="btn-primary">{submitLabel}</button>
       </div>
@@ -173,7 +173,7 @@ function Field({
 }) {
   return (
     <label className={`flex flex-col gap-1 ${full ? "md:col-span-2" : ""}`}>
-      <span className="text-xs text-zinc-600">
+      <span className="text-xs text-[#7A7A7A]">
         {label}{required ? <span className="text-rose-500"> *</span> : null}
       </span>
       {children}

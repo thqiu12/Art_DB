@@ -3,33 +3,52 @@
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* 知日美术 品牌色 */
+  --color-brand-bg: #F5F4F0;
+  --color-brand-bg-sub: #FAFAF8;
+  --color-brand-card: #FFFFFF;
+  --color-brand-dark: #1C1C1C;
+  --color-brand-orange: #F09517;
+  --color-brand-orange-hover: #D07800;
+  --color-brand-orange-bg: #FFF8EE;
+  --color-brand-border: #E2E0DA;
+  --color-brand-border-light: #F0EFE9;
+  --color-brand-text: #1C1C1C;
+  --color-brand-text-sub: #7A7A7A;
+  --color-brand-text-mute: #BDBDBD;
 }
 
 body {
+  background-color: #F5F4F0;
+  color: #1C1C1C;
   font-family: var(--font-geist-sans), "PingFang SC", "Hiragino Sans GB",
     "Microsoft YaHei", Arial, sans-serif;
 }
 
 @utility select {
-  @apply w-full border border-zinc-300 rounded-lg px-3 py-1.5 text-sm bg-white;
+  @apply w-full border border-[#E2E0DA] rounded-xl px-3 py-2 text-sm bg-[#FAFAF8] text-[#1C1C1C];
 }
 .select:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgb(161 161 170 / 0.5);
+  box-shadow: 0 0 0 2px rgb(240 149 23 / 0.4);
+}
+.select::placeholder {
+  color: #BDBDBD;
 }
 
 @utility btn-primary {
-  @apply inline-flex items-center justify-center rounded-lg px-3 py-1.5 text-sm font-medium bg-zinc-900 text-white;
+  @apply inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-bold bg-[#F09517] text-white transition;
 }
-.btn-primary:hover { background-color: rgb(39 39 42); }
+.btn-primary:hover { background-color: #D07800; }
 .btn-primary:disabled { opacity: 0.5; }
 
 @utility btn-secondary {
-  @apply inline-flex items-center justify-center rounded-lg px-3 py-1.5 text-sm font-medium bg-zinc-100 text-zinc-800;
+  @apply inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium bg-[#FAFAF8] text-[#1C1C1C] border border-[#E2E0DA] transition;
 }
-.btn-secondary:hover { background-color: rgb(228 228 231); }
+.btn-secondary:hover { background-color: #F5F4F0; }
 
 @utility btn-danger {
-  @apply inline-flex items-center justify-center rounded-lg px-3 py-1.5 text-sm font-medium text-rose-700;
+  @apply inline-flex items-center justify-center rounded-xl px-3 py-1.5 text-sm font-medium text-rose-700 transition;
 }
 .btn-danger:hover { background-color: rgb(255 241 242); }
